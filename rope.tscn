@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Rope.gd" type="Script" id=1]
+
+[node name="ropeSpawn" type="Node2D" groups=["ropeSpawn"]]
+script = ExtResource( 1 )
+softness = 0.08
