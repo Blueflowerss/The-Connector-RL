@@ -14,6 +14,7 @@ func _ready():
 	var number = 0
 	for cell in cells:
 		cell.connect("input_event",self,"_cellInteract")
+		cell.get_node("Area2D").connect("input_event",self,"_cellInteract")
 		cell.id = number
 		Global.cellDict[cell.id] = cell
 		for id in cell.ropeIds:
@@ -23,18 +24,6 @@ func _ready():
 				connectingCells[id] = []
 				connectingCells[id].append(cell)
 		number += 1
-	for cellsById in connectingCells.values():
-		for cell in cellsById:
-			for secondCell in cellsById:
-				var objectId = secondCell.get_instance_id()
-				if (objectId in cell.connectedTo)==false:
-					var rope = ropeSpawn.instance()
-					rope.firstObject = cell
-					rope.secondObject = secondCell
-					add_child(rope)
-					cell.connectedTo[secondCell.get_instance_id()] = rope
-					secondCell.connectedTo[cell.get_instance_id()] = rope
-	print(connectingCells)
 func _cellInteract(view,event,objectId):
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == BUTTON_LEFT:
@@ -44,7 +33,7 @@ func _cellInteract(view,event,objectId):
 					Global.currentCell = object.id
 					player.currentCell = object.id
 					break
-		if event.button_index == BUTTON_RIGHT:
+		elif event.button_index == BUTTON_RIGHT:
 			var currentCell = Global.cellDict[Global.currentCell]
 			var clickedCell = Global.cellDict[Global.clickedCell]
 			var clickedInstanceId = clickedCell.get_instance_id()
@@ -54,12 +43,12 @@ func _cellInteract(view,event,objectId):
 				clickedCell.connectedTo.erase(currentCell.get_instance_id())
 			else:
 				var rope = ropeSpawn.instance()
-				rope.firstObject = currentCell
-				rope.secondObject = clickedCell
+				rope.firstObject = currentCell.get_path()
+				rope.secondObject = clickedCell.get_path()
 				add_child(rope)
+				Global.currentRope = rope.get_instance_id()
 				currentCell.connectedTo[clickedCell.get_instance_id()] = rope
 				clickedCell.connectedTo[currentCell.get_instance_id()] = rope
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass

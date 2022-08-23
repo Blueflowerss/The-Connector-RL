@@ -7,6 +7,7 @@ extends Node2D
 var cellDict = {}
 var clickedCell = 0
 var currentCell = 0
+var currentRope = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

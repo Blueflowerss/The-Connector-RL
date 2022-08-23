@@ -9,6 +9,7 @@ extends Camera2D
 # Called when the node enters the scene tree for the first time.
 var zoom_radius = 2000
 var radius_required_to_move = 100
+var previousPlayerVelocity= Vector2.ZERO
 func _process(delta):
 	var mouse_position = get_global_mouse_position()
 	var mouse_delta = mouse_position - global_position

@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://water.gd" type="Script" id=1]
+[ext_resource path="res://modulateLiquid.gd" type="Script" id=2]
+
+[sub_resource type="OpenSimplexNoise" id=2]
+octaves = 9
+period = 14.8
+persistence = 0.615
+lacunarity = 2.56
+
+[sub_resource type="NoiseTexture" id=3]
+width = 64
+height = 64
+seamless = true
+noise = SubResource( 2 )
+noise_offset = Vector2( 9, 9 )
+
+[sub_resource type="RectangleShape2D" id=4]
+
+[node name="water" type="Area2D"]
+input_pickable = false
+script = ExtResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+self_modulate = Color( 0.196078, 0.376471, 0.913725, 1 )
+scale = Vector2( 0.314301, 0.314301 )
+texture = SubResource( 3 )
+script = ExtResource( 2 )
+colorModifier = Vector3( 2, 1, 0 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 4 )
+
+[connection signal="body_entered" from="." to="." method="_on_water_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_water_body_exited"]
